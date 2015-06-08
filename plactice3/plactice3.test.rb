@@ -1,20 +1,24 @@
 require 'minitest/autorun'
-require_relative 'plactice3'
+require_relative 'postcard'
+require_relative 'mail'
 
-class TestPlactice3 << Minitest::Test
+class TestPostcard < Minitest::Test
   def setup
-    @card = Postcard.new
+    @card = Postcard.new("Me", "Friend")
   end
 
   def test_write
-
+    assert_equal "Postcard of #{ Time.now }:\n\nDear Friend\n\nDid you forget my birthsday?\n\nSincerely\nMe", @card.write("Did you forget my birthsday?")
   end
 
   def test_send
-
+    assert_output("#{ Time.now }: Sending a Postcard to Friend.\n"){ @card.send }
   end
-    
-  def test_exe 
-#    assert_output(//){ Postcard.new.exe  }
-  end 
 end
+
+class TestExe < Minitest::Test
+  def test_exe 
+    assert_output("#{ Time.now }: Sending a Postcard to Friend.\n#{ '-' * 60 }\nPostcard of #{ Time.now }:\n\nDear Friend\n\nDid you forget my birthsday?\n\nSincerely\nMe\n"){ Exe.new.exe }
+  end
+end
+
